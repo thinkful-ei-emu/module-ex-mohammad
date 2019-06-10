@@ -54,10 +54,24 @@ function renderShoppingList() {
     $('.js-shopping-list').html(shoppingListItemsString);
 }
 
+function addItemToShoppingList(itemName) { //responsible for updating the store with the new item.
+    console.log(`Adding "${itemName}" to shopping list`);
+    STORE.push({name: itemName, checked: false});
+  }
 
 function handleNewItemSubmit() {
     // this function will be responsible for when users add a new shopping list item
-    console.log('`handleNewItemSubmit` ran');
+    //listens for new item submissions. When that happens, the callback function stops the default form submission 
+    //behavior and then logs to the console.    
+    $('#js-shopping-list-form').submit(function(event) {
+        event.preventDefault();
+        const newItemName = $('.js-shopping-list-entry').val(); //getting the item name
+        console.log(newItemName);
+        $('.js-shopping-list-entry').val(''); //input gets cleared out after submission,
+        //add the new item to the STORE and re-render the shopping list. 
+        addItemToShoppingList(newItemName);
+        renderShoppingList();
+      });
 }
 
 
