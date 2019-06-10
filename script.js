@@ -74,11 +74,30 @@ function handleNewItemSubmit() {
       });
 }
 
+function toggleCheckedForListItem(itemId) {
+    console.log('Toggling checked property for item with id ' + itemId);
+    const item = STORE.find(item => item.id === itemId);
+    item.checked = !item.checked;
+  }
 
+function getItemIdFromElement(item) {//used to retrieve the item's id in STORE from the data attribute on the DOM element.
+//turn the item into a jQuery object and then use the .closest method to get the first parent li element. Then we fetch 
+//the value from the data-item-id attribute by using the jQuery .data() method.
+    return $(item)
+      .closest('li')
+      .data('item-id');
+  }
 function handleItemCheckClicked() {
     // this function will be responsible for when users click the "check" button on
     // a shopping list item.
-    console.log('`handleItemCheckClicked` ran');
+    //
+    $('.js-shopping-list').on('click', '.js-item-toggle', event => { // need to use event delegation because our list items won't be in the DOM on page load.
+        console.log('`handleItemCheckClicked` ran');
+        const id = getItemIdFromElement(event.currentTarget);
+        toggleCheckedForListItem(id);
+        renderShoppingList();
+      });
+
 }
 
 
